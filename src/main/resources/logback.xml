@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <Pattern>
+        %blue(%d{ISO8601}) %blue([%thread]) %-5level %green(%logger{100}) - %msg%n%throwable
+      </Pattern>
+    </encoder>
+  </appender>
+  <root level="info">
+    <appender-ref ref="Console"/>
+  </root>
+  <logger name="idv.lance" level="debug" additivity="false">
+    <appender-ref ref="Console"/>
+  </logger>
+</configuration>
