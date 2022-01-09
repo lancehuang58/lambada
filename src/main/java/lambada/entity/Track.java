@@ -17,5 +17,5 @@ public class Track extends Model<Track> implements Serializable {
 
   @TableId private Integer id;
   private String name;
-  private String length;
+  private Integer length;
 }
