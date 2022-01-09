@@ -15,12 +15,8 @@ import lombok.experimental.Accessors;
 public class Artist extends Model<Artist> implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  /** id */
   @TableId private Integer id;
-  /** name */
   private String name;
-  /** members */
   private String members;
-  /** origin */
   private String origin;
 }

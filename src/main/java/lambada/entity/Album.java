@@ -15,8 +15,6 @@ import lombok.experimental.Accessors;
 public class Album extends Model<Album> implements Serializable {
   private static final long serialVersionUID = 1L;
 
-  /** id */
   @TableId private Integer id;
-  /** trackId */
   private Integer trackId;
 }
