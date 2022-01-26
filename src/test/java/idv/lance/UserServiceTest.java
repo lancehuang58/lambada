@@ -1,5 +1,6 @@
 package idv.lance;
 
+import lombok.var;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,17 +18,30 @@ class UserServiceTest {
 
   @Test
   void show_age_mapping() {
-    userService.showAgeMapping();
+    var i = userService.showAgeMapping();
+    log.info("age maaping {}", i);
+    Assertions.assertFalse(i.isEmpty());
   }
 
   @Test
   void show_name_grouping() {
-    userService.showUserGroupingByName();
+    var i = userService.showUserGroupingByName();
+    log.info("name grouping {}", i);
+    Assertions.assertFalse(i.isEmpty());
   }
 
   @Test
   void test_show_name_counting() {
-    userService.showUserNameCounting();
+    var i = userService.showUserNameCounting();
+    log.info("user name counting {}", i);
+    Assertions.assertFalse(i.isEmpty());
+  }
+
+  @Test
+  void test_countingAndThen() {
+    var i = userService.showUserNameCountingInteger();
+    log.info("user name counting and then (convert to int) {}", i);
+    Assertions.assertFalse(i.isEmpty());
   }
 
 }
