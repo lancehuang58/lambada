@@ -1,11 +1,8 @@
 package idv.lance;
 
-import lombok.var;
+
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.Serial;
-
-import javax.sound.sampled.SourceDataLine;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
