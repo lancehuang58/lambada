@@ -3,6 +3,7 @@ package idv.lance;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 @Slf4j
 class UserServiceTest {
   UserService userService = new UserService();
@@ -23,4 +24,10 @@ class UserServiceTest {
   void show_name_grouping() {
     userService.showUserGroupingByName();
   }
+
+  @Test
+  void test_show_name_counting() {
+    userService.showUserNameCounting();
+  }
+
 }
