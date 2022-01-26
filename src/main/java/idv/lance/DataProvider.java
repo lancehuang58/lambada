@@ -11,9 +11,14 @@ import java.util.List;
 
 public class DataProvider {
 
+    private DataProvider() {
+
+    }
+
     public static List<User> getUsers() {
         try {
-            String data = Files.readString(Paths.get(Thread.currentThread().getContextClassLoader().getResource("data1.json").toURI()));
+            String data = Files.readString(
+                    Paths.get(Thread.currentThread().getContextClassLoader().getResource("data1.json").toURI()));
             return JSON.parseArray(data, User.class);
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
