@@ -2,6 +2,11 @@ package idv.lance;
 
 import lombok.var;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.Serial;
+
+import javax.sound.sampled.SourceDataLine;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -44,4 +49,16 @@ class UserServiceTest {
     Assertions.assertFalse(i.isEmpty());
   }
 
+  @Test
+  void test_max_age_user() {
+    var i = userService.getMaxAgeName();
+    log.info("max age user group {}", i);
+
+  }
+
+  @Test
+  void test_getMaxAgeWithSameNameUser() {
+    var i = userService.getMaxAgeWithSameNameUser();
+    log.info("max age user {}", i);
+  }
 }

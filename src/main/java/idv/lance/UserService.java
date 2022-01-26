@@ -3,10 +3,17 @@ package idv.lance;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
+import javax.sound.sampled.SourceDataLine;
+
+import lombok.var;
 
 import static idv.lance.DataProvider.getUsers;
 import static java.util.stream.Collectors.*;
+import static java.util.Comparator.*;
 
 public class UserService {
 
@@ -24,6 +31,24 @@ public class UserService {
 
     public Integer sumOfAge() {
         return getUsers().stream().map(User::getAge).reduce(0, Integer::sum);
+    }
+
+    public String getMaxAgeName() {
+        return getUsers().stream()
+                .collect(
+                        collectingAndThen(
+                                maxBy(comparing(User::getAge)),
+                                user -> user.map(User::getName).orElse("")));
+    }
+
+    static Collector<User, User, Integer> maxAgeUser = collectingAndThen(
+            maxBy(comparing(User::getAge)),
+            user -> user.map(User::getAge).orElse(1));
+
+    public Map<String, Integer> getMaxAgeWithSameNameUser() {
+        return getUsers()
+                .stream()
+                .collect(groupingBy(User::getName, maxAgeUser));
     }
 
     public List<User> getUserAgeGreaterThan(int i) {
@@ -63,6 +88,10 @@ public class UserService {
     }
 
     public Map<String, Integer> showUserNameCountingInteger() {
-        return getUsers().stream().collect(groupingBy(User::getName, collectingAndThen(counting(), Long::intValue)));
+        return getUsers().stream()
+                .collect(
+                        groupingBy(User::getName,
+                                collectingAndThen(
+                                        counting(), Long::intValue)));
     }
 }
