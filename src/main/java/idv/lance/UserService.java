@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import lombok.var;
-
 import static idv.lance.DataProvider.getUsers;
 import static java.util.stream.Collectors.*;
 
@@ -48,23 +46,23 @@ public class UserService {
                 .collect(Collectors.joining(","));
     }
 
-    public void showAgeMapping() {
-        Map<Boolean, List<User>> ageMapping = getUsers().stream()
+    public Map<Boolean, List<User>> showAgeMapping() {
+        return getUsers().stream()
                 .collect(partitioningBy(user -> user.getAge() % 2 == 0));
-        System.out.println(ageMapping.get(true));
-        System.out.println(ageMapping.get(false));
     }
 
-    public void showUserGroupingByName() {
-        Map<String, Set<Integer>> usersGropingByName = getUsers()
+    public Map<String, Set<Integer>> showUserGroupingByName() {
+        return getUsers()
                 .stream()
                 .collect(groupingBy(User::getName,
                         mapping(User::getAge, toSet())));
-        System.out.println(usersGropingByName);
     }
 
-    public void showUserNameCounting() {
-        var i = getUsers().stream().collect(groupingBy(User::getName, counting()));
-        System.out.println(i);
+    public Map<String, Long> showUserNameCounting() {
+        return getUsers().stream().collect(groupingBy(User::getName, counting()));
+    }
+
+    public Map<String, Integer> showUserNameCountingInteger() {
+        return getUsers().stream().collect(groupingBy(User::getName, collectingAndThen(counting(), Long::intValue)));
     }
 }
