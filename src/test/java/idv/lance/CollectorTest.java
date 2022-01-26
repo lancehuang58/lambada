@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.*;
 
@@ -43,4 +44,17 @@ class CollectorTest {
             .collect(toList());
     Assertions.assertFalse(names.isEmpty());
   }
+
+  @Test
+  void filter_age_greater_than_30(){
+    List<User> users = userService.getUserAgeGreaterThan(30);
+    Assertions.assertFalse(users.isEmpty());
+  }
+
+  @Test
+  void map_entity_to_map(){
+    Map<String, Integer> userAgeInfo = userService.getUserAgeInfo();
+    Assertions.assertFalse(userAgeInfo.isEmpty());
+  }
+
 }
