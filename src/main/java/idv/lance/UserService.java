@@ -17,7 +17,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Integer sumOfUserN() {
-        return DataProvider.getUsers().stream().map(u -> u.getN()).reduce(0, Integer::sum);
+    public Integer sumOfAge() {
+        return DataProvider.getUsers().stream()
+                .map(User::getAge)
+                .reduce(0, Integer::sum);
     }
 }
