@@ -24,7 +24,7 @@ class CollectorTest {
         userService.getUserWithNameLengthGreaterThan(10).stream()
             .map(User::getName)
             .reduce(
-                new ArrayList<String>(),
+                new ArrayList<>(),
                 (names, name) -> {
                   names.add(name);
                   return names;

@@ -3,7 +3,7 @@ package idv.lance;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static idv.lance.DataProvider.getUsers;
 import static java.util.Comparator.comparing;
@@ -20,7 +20,7 @@ public class UserService {
   public List<User> getUserWithNameLengthGreaterThan(int length) {
     return getUsers().stream()
         .filter(u -> u.getName().length() > length)
-        .collect(Collectors.toList());
+        .collect(toList());
   }
 
   public Integer sumOfAge() {
@@ -44,15 +44,15 @@ public class UserService {
   }
 
   public List<User> getUserAgeGreaterThan(int i) {
-    return getUsers().stream().filter(user -> user.getAge() > i).collect(Collectors.toList());
+    return getUsers().stream().filter(user -> user.getAge() > i).collect(toList());
   }
 
   public Map<String, Integer> getUserAgeInfo() {
-    return getUsers().stream().collect(Collectors.toMap(User::getName, User::getAge));
+    return getUsers().stream().collect(toMap(User::getName, User::getAge));
   }
 
   public List<Integer> getImmutableAgeList() {
-    return getUsers().stream().map(User::getAge).collect(Collectors.toUnmodifiableList());
+    return getUsers().stream().map(User::getAge).collect(toUnmodifiableList());
   }
 
   public String getJoinedUserNamesUppercase(int age) {
@@ -60,7 +60,7 @@ public class UserService {
         .filter(user -> user.getAge() > age)
         .map(User::getName)
         .map(String::toUpperCase)
-        .collect(Collectors.joining(","));
+        .collect(joining(","));
   }
 
   public Map<Boolean, List<User>> showAgeMapping() {
@@ -78,5 +78,17 @@ public class UserService {
   public Map<String, Integer> showUserNameCountingInteger() {
     return getUsers().stream()
         .collect(groupingBy(User::getName, collectingAndThen(counting(), Long::intValue)));
+  }
+
+  public void getFlatMappingNames() {
+    var i =
+        getUsers().stream()
+            .collect(
+                groupingBy(
+                    User::getAge,
+                    mapping(
+                        user -> user.getName().toUpperCase(),
+                        flatMapping(name -> Stream.of(name.split("")), toSet()))));
+    System.out.println(i);
   }
 }

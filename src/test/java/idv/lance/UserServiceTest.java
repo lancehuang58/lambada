@@ -21,7 +21,7 @@ class UserServiceTest {
   @Test
   void show_age_mapping() {
     var i = userService.showAgeMapping();
-    log.info("age maaping {}", i);
+    log.info("age mapping {}", i);
     Assertions.assertFalse(i.isEmpty());
   }
 
@@ -57,5 +57,10 @@ class UserServiceTest {
   void test_getMaxAgeWithSameNameUser() {
     var i = userService.getMaxAgeWithSameNameUser();
     log.info("max age user {}", i);
+  }
+
+  @Test
+  void test_flat_mapping(){
+    userService.getFlatMappingNames();
   }
 }
