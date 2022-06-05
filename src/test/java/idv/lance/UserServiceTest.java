@@ -10,20 +10,6 @@ class UserServiceTest {
   UserService userService = new UserService();
 
   @Test
-  public void init_user() {
-//    User user = User.builder().name("lance").age(7).build();
-//    user = user.toBuilder().build();
-//    log.info("user {}", user);
-  }
-
-  @Test
-  public void compare_user() {
-//    User user = User.builder().name("lance").firstName("huang").age(7).build();
-//    User user2 = User.builder().name("lance").firstName("lee").age(7).build();
-//    Assertions.assertEquals(user, user2);
-  }
-
-  @Test
   void test_join_name() {
     String joinedUserNamesUppercase = userService.getJoinedUserNamesUppercase(30);
     log.info("names {}", joinedUserNamesUppercase);
@@ -62,7 +48,6 @@ class UserServiceTest {
   void test_max_age_user() {
     var i = userService.getMaxAgeName();
     log.info("max age user group {}", i);
-
   }
 
   @Test

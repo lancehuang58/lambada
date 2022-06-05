@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class DepartmentTest {
 
-    @Test
-    public void dept_init() {
-        Department dept = Department.builder().name("finance").build();
-        log.info("dept {}", dept);
-    }
+  @Test
+  public void dept_init() {
+    Department dept = Department.builder().name("finance").build();
+    log.info("dept {}", dept);
+  }
 }

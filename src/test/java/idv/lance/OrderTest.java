@@ -9,12 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OrderTest {
 
-    @Test
-    public void test_order_build() {
-        Order order = Order.builder()
-                .id(UUID.randomUUID().toString())
-                .name("spec").build();
+  @Test
+  public void test_order_build() {
+    Order order = Order.builder().id(UUID.randomUUID().toString()).name("spec").build();
 
-        log.info("order {}", order);
-    }
+    log.info("order {}", order);
+  }
 }
