@@ -11,7 +11,7 @@ public class Employee extends User {
     private Department dept;
 
     @Builder
-    public Employee(int age, String name, String firstName, Department department) {
+    public Employee(int age, String name, String firstName, @NonNull Department department) {
         super(age, name, firstName);
         this.dept = department;
     }

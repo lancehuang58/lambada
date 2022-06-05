@@ -11,5 +11,6 @@ public class User {
     private int age;
     private String name;
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private String firstName;
 }
