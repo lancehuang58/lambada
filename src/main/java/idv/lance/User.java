@@ -1,9 +1,15 @@
 package idv.lance;
 
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@ToString
 public class User {
     private int age;
     private String name;
+    @EqualsAndHashCode.Exclude
+    private String firstName;
 }
