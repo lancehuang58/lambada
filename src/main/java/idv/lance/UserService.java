@@ -9,6 +9,7 @@ import static idv.lance.DataProvider.getUsers;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 
+
 public class UserService {
 
   /**

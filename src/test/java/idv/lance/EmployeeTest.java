@@ -4,12 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @Slf4j
 class EmployeeTest {
   @Test
-  public void compare_employee() {
+  void compare_employee() {
 
     Employee employee =
         Employee.builder().age(1).name("lance").department(new Department("", "ap")).build();
@@ -19,7 +17,7 @@ class EmployeeTest {
   }
 
   @Test()
-  public void npe_throw() {
-    assertThrows(NullPointerException.class, () -> Employee.builder().build());
+  void npe_throw() {
+    Assertions.assertThrows(NullPointerException.class, () -> Employee.builder().build());
   }
 }

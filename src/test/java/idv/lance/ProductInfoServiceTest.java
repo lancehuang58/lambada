@@ -1,16 +1,14 @@
 package idv.lance;
 
-import org.junit.jupiter.api.BeforeEach;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
-public class ProductInfoServiceTest {
+class ProductInfoServiceTest {
   ProductInfoService service = new ProductInfoService();
 
   @Test
-  public void test_get_info() {
+  void test_get_info() {
     ProductInfo info = service.getInfo();
     log.info("info {}", info);
   }

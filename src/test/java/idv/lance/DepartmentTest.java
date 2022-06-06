@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class DepartmentTest {
 
   @Test
-  public void dept_init() {
+  void dept_init() {
     Department dept = Department.builder().name("finance").build();
     log.info("dept {}", dept);
   }

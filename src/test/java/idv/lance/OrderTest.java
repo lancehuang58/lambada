@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class OrderTest {
+class OrderTest {
 
   @Test
-  public void test_order_build() {
+  void test_order_build() {
     Order order = Order.builder().id(UUID.randomUUID().toString()).name("spec").build();
 
     log.info("order {}", order);
