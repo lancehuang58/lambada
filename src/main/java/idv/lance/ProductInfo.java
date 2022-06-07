@@ -1,10 +1,10 @@
 package idv.lance;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
+
+import java.util.List;
 
 @Data
 @Builder

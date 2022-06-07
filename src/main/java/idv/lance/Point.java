@@ -6,11 +6,13 @@ import lombok.With;
 
 @ToString
 public class Point {
-  @With private final Integer x;
-  @With private final Integer y;
+    @With
+    private final Integer x;
+    @With
+    private final Integer y;
 
-  public Point(@NonNull Integer x, @NonNull Integer y) {
-    this.x = x;
-    this.y = y;
-  }
+    public Point(@NonNull Integer x, @NonNull Integer y) {
+        this.x = x;
+        this.y = y;
+    }
 }

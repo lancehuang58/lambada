@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 @Slf4j
 class ProductInfoServiceTest {
-  ProductInfoService service = new ProductInfoService();
+    ProductInfoService service = new ProductInfoService();
 
-  @Test
-  void test_get_info() {
-    ProductInfo info = service.getInfo();
-    log.info("info {}", info);
-  }
+    @Test
+    void test_get_info() {
+        ProductInfo info = service.getInfo();
+        log.info("info {}", info);
+    }
 }
