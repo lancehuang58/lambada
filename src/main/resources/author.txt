@@ -1,3 +1,7 @@
 Wow
+
 Alliance
 Knight
+
+Horde
+Warlock
