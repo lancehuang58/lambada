@@ -43,10 +43,10 @@ public class Resource {
 
     //easy to forget close
     //exception
-    private static void normalCase() {
-        Resource resource = new Resource();
-        resource.op1();
-        resource.op2();
-        resource.close();
-    }
+//    private static void normalCase() {
+//        Resource resource = new Resource();
+//        resource.op1();
+//        resource.op2();
+//        resource.close();
+//    }
 }
