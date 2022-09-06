@@ -1,5 +1,6 @@
 package idv.lance.collector;
 
+import idv.lance.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +16,7 @@ class PeopleProviderTest {
     //java has reduces in two forms, reduce and collect
     @Test
     void test_people_age_sum_reduce() {
-        List<Person> people = PeopleProvider.get();
+        List<Person> people = Data.personSupplier.get();
         //int ageTotal = people.stream().map(Person::getAge).reduce(0, (total, age) -> total + age);
         int ageTotal = people.stream().map(Person::getAge).reduce(0, Integer::sum);
         Assertions.assertEquals(212, ageTotal);
@@ -32,7 +33,7 @@ class PeopleProviderTest {
 
     @Test
     void test_reduce1() {
-        List<String> collect = PeopleProvider.get().stream()
+        List<String> collect = Data.personSupplier.get().stream()
                 .filter(p -> p.getAge() > 30)
                 .map(Person::getName)
                 .map(String::toUpperCase)
@@ -54,7 +55,7 @@ class PeopleProviderTest {
 
     @Test
     void test_collector() {
-        List<String> collect = PeopleProvider.get().stream()
+        List<String> collect = Data.personSupplier.get().stream()
                 .filter(p -> p.getAge() > 30)
                 .map(Person::getName)
                 .map(String::toUpperCase)
