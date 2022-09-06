@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 class PeopleProviderTest {
 
@@ -61,5 +64,13 @@ class PeopleProviderTest {
                 .map(String::toUpperCase)
                 .collect(Collectors.toList());
         Assertions.assertIterableEquals(List.of("PAULA", "PAUL", "JACK"), collect);
+    }
+
+    @Test
+    void test_mapping_user_to_name_and_age_map() {
+        Map<String, Integer> nameAndAge =
+                Data.personSupplier.get().stream()
+                .collect(toMap(Person::getName, Person::getAge));
+        System.out.println(nameAndAge);
     }
 }
