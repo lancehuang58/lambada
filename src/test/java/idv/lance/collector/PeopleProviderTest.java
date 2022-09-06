@@ -3,6 +3,7 @@ package idv.lance.collector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,29 @@ class PeopleProviderTest {
     //2. pure function do not depend on anything that may change
 
     @Test
-    void test_get_people_age_over_30() {
+    void test_reduce1() {
+        List<String> collect = PeopleProvider.get().stream()
+                .filter(p -> p.getAge() > 30)
+                .map(Person::getName)
+                .map(String::toUpperCase)
+                //reduce including 3 params
+                .reduce(
+                        new ArrayList<>(), //1. container for element
+                        (names, name) ->   //2.accumulator how to handle each element and merge to init value
+                        {
+                            names.add(name);
+                            return names;
+                        },
+                        (names1, names2) ->  //3.combiner, if the stream running in parallel stream , how the 2 different collection to merge.
+                        {
+                            names1.addAll(names2);
+                            return names1;
+                        });
+        Assertions.assertIterableEquals(List.of("PAULA", "PAUL", "JACK"), collect);
+    }
+
+    @Test
+    void test_collector() {
         List<String> collect = PeopleProvider.get().stream()
                 .filter(p -> p.getAge() > 30)
                 .map(Person::getName)
