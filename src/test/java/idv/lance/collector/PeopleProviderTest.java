@@ -1,15 +1,14 @@
 package idv.lance.collector;
 
-import idv.lance.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toMap;
+import static idv.lance.Data.PERSON_SUPPLIER;
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.*;
 
 class PeopleProviderTest {
 
@@ -19,7 +18,7 @@ class PeopleProviderTest {
     //java has reduces in two forms, reduce and collect
     @Test
     void test_people_age_sum_reduce() {
-        List<Person> people = Data.personSupplier.get();
+        List<Person> people = PERSON_SUPPLIER.get();
         //int ageTotal = people.stream().map(Person::getAge).reduce(0, (total, age) -> total + age);
         int ageTotal = people.stream().map(Person::getAge).reduce(0, Integer::sum);
         Assertions.assertEquals(212, ageTotal);
@@ -36,19 +35,14 @@ class PeopleProviderTest {
 
     @Test
     void test_reduce1() {
-        List<String> collect = Data.personSupplier.get().stream()
-                .filter(p -> p.getAge() > 30)
-                .map(Person::getName)
-                .map(String::toUpperCase)
+        List<String> collect = PERSON_SUPPLIER.get().stream().filter(p -> p.getAge() > 30).map(Person::getName).map(String::toUpperCase)
                 //reduce including 3 params
-                .reduce(
-                        new ArrayList<>(), //1. container for element
+                .reduce(new ArrayList<>(), //1. container for element
                         (names, name) ->   //2.accumulator how to handle each element and merge to init value
                         {
                             names.add(name);
                             return names;
-                        },
-                        (names1, names2) ->  //3.combiner, if the stream running in parallel stream , how the 2 different collection to merge.
+                        }, (names1, names2) ->  //3.combiner, if the stream running in parallel stream , how the 2 different collection to merge.
                         {
                             names1.addAll(names2);
                             return names1;
@@ -56,21 +50,117 @@ class PeopleProviderTest {
         Assertions.assertIterableEquals(List.of("PAULA", "PAUL", "JACK"), collect);
     }
 
+    /**
+     * map object to int stream and using function to aggregate.
+     */
+    @Test
+    void test_int_stream() {
+        int sum = PERSON_SUPPLIER.get().stream().mapToInt(Person::getAge).sum();
+        System.out.println(sum);
+    }
+
+    @Test
+    void test_find_the_max_age_in_collection() {
+        //Optional<Person> collect = PERSON_SUPPLIER.get().stream().collect(maxBy(comparing(Person::getAge)));
+        Optional<Person> collect = PERSON_SUPPLIER.get().stream().max(comparing(Person::getAge));
+        Assertions.assertTrue(collect.isPresent());
+        System.out.println("max age is " + collect.get().getAge());
+        Optional<Person> min = PERSON_SUPPLIER.get().stream().min(comparing(Person::getAge));
+        min.ifPresent(m -> System.out.println("min age is " + m.getAge()));
+    }
+
+    @Test
+    void test_find_max_age_person_name() {
+        String collect = PERSON_SUPPLIER.get().stream().collect(
+                collectingAndThen(
+                        maxBy(comparing(Person::getAge)),
+                        person -> person.map(Person::getName).orElse("")));
+        System.out.println(collect);
+    }
+
     @Test
     void test_collector() {
-        List<String> collect = Data.personSupplier.get().stream()
-                .filter(p -> p.getAge() > 30)
-                .map(Person::getName)
-                .map(String::toUpperCase)
-                .collect(Collectors.toList());
+        List<String> collect = PERSON_SUPPLIER.get().stream()
+                .filter(p -> p.getAge() > 30).map(Person::getName).map(String::toUpperCase).collect(Collectors.toList());
         Assertions.assertIterableEquals(List.of("PAULA", "PAUL", "JACK"), collect);
     }
 
     @Test
     void test_mapping_user_to_name_and_age_map() {
-        Map<String, Integer> nameAndAge =
-                Data.personSupplier.get().stream()
-                .collect(toMap(Person::getName, Person::getAge));
+        Map<String, Integer> nameAndAge = PERSON_SUPPLIER.get().stream().collect(toMap(Person::getName, Person::getAge, (a, b) -> a));
         System.out.println(nameAndAge);
+    }
+
+    @Test
+    void test_map_ages() {
+        List<Integer> ages = PERSON_SUPPLIER.get().stream().map(Person::getAge).collect(toUnmodifiableList());
+        System.out.println(ages);
+    }
+
+    @Test
+    void test_get_names_as_string() {
+        String joinNames = PERSON_SUPPLIER.get().stream().filter(p -> p.getAge() > 30).map(Person::getName).map(String::toUpperCase).collect(Collectors.joining(","));
+        System.out.println(joinNames);
+        Assertions.assertNotNull(joinNames);
+    }
+
+    @Test
+    void test_partition() {
+        Map<Boolean, List<Person>> partitionPerson =
+                PERSON_SUPPLIER.get().stream()
+                        .collect(partitioningBy(person -> person.getAge() % 2 == 0));
+        System.out.println("even age user -> " + partitionPerson.get(true));
+    }
+
+    /**
+     * group by name , then collect age to list.
+     */
+    @Test
+    void test_group_by_age_and_name() {
+        Map<String, Set<Integer>> collect = PERSON_SUPPLIER.get().stream()
+                .collect(groupingBy(Person::getName, mapping(Person::getAge, toSet())));
+        System.out.println(collect);
+    }
+
+    @Test
+    void test_count_by_name() {
+        Map<String, Long> collect = PERSON_SUPPLIER.get().stream()
+                .collect(groupingBy(Person::getName, counting()));
+        System.out.println(collect);
+    }
+
+    /**
+     * 1. group by name
+     * 2. each group apply collector counting
+     * 3. use collectingAndThen to change the final result.
+     */
+    @Test
+    void test_get_count_as_integer_by_name() {
+        Map<String, Integer> collect = PERSON_SUPPLIER.get().stream()
+                .collect(
+                        groupingBy(Person::getName, collectingAndThen(counting(), Long::intValue)));
+        System.out.println(collect);
+    }
+
+
+    @Test
+    void use_filtering_to_find_user_name_length_greater_than_4_group_by_name() {
+        System.out.println(PERSON_SUPPLIER.get()
+                .stream().collect(
+                        groupingBy(Person::getAge,
+                                mapping(Person::getName,
+                                        filtering(name -> name.length() > 4, toList())))));
+    }
+
+    @Test
+    void flat_mapping() {
+        // 1 to 1
+//        List<Integer> numbers = List.of(1, 2, 3);
+//        List<Integer> collect = numbers.stream().map(i -> i * 2).collect(toList());
+//        System.out.println(collect);
+//      1 to many
+        var numbers = List.of(1, 2, 3);
+        numbers.stream().map(i -> List.of(i - 1, i + 1)).collect(toList());
+//        System.out.println(collect);
     }
 }
