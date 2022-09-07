@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static idv.lance.Data.PERSON_SUPPLIER;
 import static java.util.Comparator.comparing;
@@ -154,13 +155,8 @@ class PeopleProviderTest {
 
     @Test
     void flat_mapping() {
-        // 1 to 1
-//        List<Integer> numbers = List.of(1, 2, 3);
-//        List<Integer> collect = numbers.stream().map(i -> i * 2).collect(toList());
-//        System.out.println(collect);
-//      1 to many
         var numbers = List.of(1, 2, 3);
-        numbers.stream().map(i -> List.of(i - 1, i + 1)).collect(toList());
-//        System.out.println(collect);
+        List<Integer> collect = numbers.stream().flatMap(i -> Stream.of(i - 1, i + 1)).collect(toList());
+        System.out.println(collect);
     }
 }
