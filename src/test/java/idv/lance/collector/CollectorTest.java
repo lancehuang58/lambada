@@ -14,7 +14,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-class PeopleProviderTest {
+class CollectorTest {
 
 
     //reduce takes the collection reduces to a single value...
