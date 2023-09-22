@@ -1,7 +1,5 @@
 package idv.lance.onjava;
 
-import java.util.function.Function;
-
 interface Strategy {
   String approach(String message);
 }
@@ -19,15 +17,7 @@ class Unrelated {
   }
 }
 
-class Test {
-  static String mytest(String msg) {
-	return "";
-  }
-}
-
 public class Strategize {
-
-  static Function<String, String> fun = str -> str +  ">>> ";
 
   String msg;
   Strategy strategy;
