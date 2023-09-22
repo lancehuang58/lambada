@@ -2,9 +2,9 @@ package idv.lance;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -13,39 +13,40 @@ public class IsPalindromePrimeNumber {
 
     public static void main(String[] args) {
 
-        int a = 100, b = 100000000;
+        int a = 1, b = 1000000000;
 
-
+        List<Integer> prime = new ArrayList<>();
         long start = System.currentTimeMillis();
         System.out.println("start = " + start);
         int N = b;
-        boolean[] isPrime = new boolean[N];
-        isPrime[0] = isPrime[1] = true;
-        int[] prime = new int[N];
-        prime[0] = 2;
-        int t = 0;
+        BitSet isPrime = new BitSet();
+        isPrime.set(0, true);
+        isPrime.set(1, true);
+
         for (int i = 2; i < N; i++) {
 
-            if (!isPrime[i]) {
-                prime[t++] = i;
+            if (!isPrime.get(i)) {
+                prime.add(i);
             }
 
-            for (int j = 0; j < t && prime[j] * i < N; j++) {
-                int idx = i * prime[j];
-                isPrime[idx] = true;
-                if (i % prime[j] == 0) {
+            for (int j = 0; j < prime.size() && prime.get(j) * i < N; j++) {
+                int idx = i * prime.get(j);
+                isPrime.set(idx, true);
+                if (i % prime.get(j) == 0) {
                     break;
                 }
             }
         }
 
-        List<Integer> primes = Arrays.stream(prime).filter(i -> i != 0).boxed().collect(toList());
+        List<Integer> primes = prime.stream().filter(i -> i != 0).collect(toList());
         System.out.println("primes size " + primes.size());
-        List<Integer> primesWithPalindrome = primes.stream().filter(IsPalindromePrimeNumber::isPalindrome)
+
+        List<Integer> primesWithPalindrome = primes.stream()
                 .filter(i -> i > a)
+                .filter(IsPalindromePrimeNumber::isPalindrome)
                 .collect(toList());
         System.out.println("primesWithPalindrome.size() = " + primesWithPalindrome.size());
-        System.out.println(primesWithPalindrome.stream().map(String::valueOf).collect(Collectors.joining(",")));
+//        System.out.println(primesWithPalindrome.stream().map(String::valueOf).collect(Collectors.joining(",")));
         long end = System.currentTimeMillis();
         System.out.println("end = " + end);
         System.out.println("time " + (end - start));
