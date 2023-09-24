@@ -19,14 +19,14 @@ class File implements Content {
   }
 }
 
-interface ContentIdValidator {
+interface ContentValidator {
   boolean validate(Content content);
 }
 
 public class ContentProcessing {
 
   public static void main(String[] args) {
-	ContentIdValidator validator = Content::isIdExist;
+	ContentValidator validator = Content::isIdExist;
 	boolean validate = validator.validate(new File());
 	System.out.println(validate);
   }
