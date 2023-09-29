@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -20,11 +21,16 @@ public class RandomWords implements Supplier<String> {
         InputStream is = RandomWords.class.getResourceAsStream(fname);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         List<String> lines = reader.lines().collect(Collectors.toList());
-        for (String line : lines.subList(1, lines.size())) {
-            for (String s : line.split("[ .?,]+")) {
-                words.add(s.toLowerCase());
-            }
-        }
+        words = lines.subList(1, lines.size())//skip first line
+                     .stream()
+                     .map(s -> s.split("[ .?,]+"))//split by ' ',?,.
+                     .flatMap(Arrays::stream)
+                     .collect(Collectors.toList());
+//        for (String line : lines.subList(1, lines.size())) {
+//            for (String s : line.split("[ .?,]+")) {
+//                words.add(s.toLowerCase());
+//            }
+//        }
     }
 
     @Override
@@ -33,9 +39,11 @@ public class RandomWords implements Supplier<String> {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(Stream.generate(new RandomWords("/Cheese.dat"))
-                                 .limit(10)
-                                 .collect(Collectors.joining(" ")));
+        RandomWords randomWordsSupplier = new RandomWords("/Cheese.dat");
+        String result = Stream.generate(randomWordsSupplier)
+                              .limit(20)
+                              .collect(Collectors.joining(" "));
+        System.out.println(result);
     }
 
     @Override
