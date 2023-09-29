@@ -7,6 +7,7 @@ public class FunctionMap3 {
         Stream.of("3", "5", "7")
               .mapToInt(Integer::parseInt)
               .forEach(d -> System.out.printf("%d\t", d));
+        System.out.println();
 
     }
 }
