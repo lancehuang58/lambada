@@ -33,7 +33,7 @@ public class FileToWordsBuilder {
 
     public static void main(String[] args) {
         String join =
-            new FileToWordsBuilder("/Cheese.dat1").stream().limit(7).collect(Collectors.joining(","));
+            new FileToWordsBuilder("/Cheese.dat").stream().limit(7).collect(Collectors.joining(" "));
         System.out.println("join = " + join);
     }
 }
