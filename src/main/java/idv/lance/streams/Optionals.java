@@ -1,7 +1,5 @@
 package idv.lance.streams;
 
-import idv.lance.onjava.ConsumeFunction;
-
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -22,7 +20,31 @@ public class Optionals {
         cos.accept(Stream.<String>empty().findFirst());
     }
 
+    static void ifPresent(Optional<String> optionalS) {
+        optionalS.ifPresent(System.out::println);
+    }
+
+    static void orElse(Optional<String> optional) {
+        System.out.println(optional.orElse("Nada"));
+    }
+
+    static void orElseGet(Optional<String> optional) {
+        System.out.println(optional.orElseGet(() -> "Generated"));
+    }
+
+    static void orElseThrow(Optional<String> optional) {
+        try {
+            optional.orElseThrow(RuntimeException::new);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         test("basics", Optionals::basics);
+        test("ifPresent", Optionals::ifPresent);
+        test("orElse", Optionals::orElse);
+        test("orElseGet", Optionals::orElseGet);
+        test("orElseThrow", Optionals::orElseThrow);
     }
 }
