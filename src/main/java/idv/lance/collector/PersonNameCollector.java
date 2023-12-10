@@ -1,6 +1,7 @@
 package idv.lance.collector;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -9,7 +10,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-public class PersonNameCollector implements Collector<Person,List<String>, List<String>> {
+public class PersonNameCollector implements Collector<Person, List<String>, List<String>> {
 
     @Override
     public Supplier<List<String>> supplier() {
@@ -18,24 +19,23 @@ public class PersonNameCollector implements Collector<Person,List<String>, List<
 
     @Override
     public BiConsumer<List<String>, Person> accumulator() {
-        return (a,b)-> a.add(b.getName());
+        return (l,p)-> l.add(p.getName());
     }
 
     @Override
     public BinaryOperator<List<String>> combiner() {
         return (a,b)-> {
-            a.addAll(b);
-            return a;
+            a.addAll(b);return a;
         };
     }
 
     @Override
     public Function<List<String>, List<String>> finisher() {
-        return a -> a;
+        return Collections::unmodifiableList;
     }
 
     @Override
     public Set<Characteristics> characteristics() {
-        return null;
+        return Collections.emptySet();
     }
 }
