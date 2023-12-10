@@ -3,6 +3,7 @@ package idv.lance.streams;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.var;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -34,7 +35,7 @@ class RandomPair {
 public class MapCollectors {
     public static void main(String[] args) {
         var collect = new RandomPair().stream().limit(8)
-                            .collect(toMap(Pair::getC, Pair::getI, (a, b) -> a));
+                                      .collect(toMap(Pair::getC, Pair::getI, (a, b) -> a));
         System.out.println("collect = " + collect);
     }
 }

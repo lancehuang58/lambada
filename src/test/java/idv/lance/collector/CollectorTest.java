@@ -1,15 +1,13 @@
 package idv.lance.collector;
 
+import lombok.var;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static idv.lance.Data.PERSON_SUPPLIER;
+import static idv.lance.collector.Data.PERSON_SUPPLIER;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +52,7 @@ class CollectorTest {
                             names1.addAll(names2);
                             return names1;
                         });
-        assertIterableEquals(List.of("PAULA", "PAUL", "JACK"), collect);
+        assertIterableEquals(Arrays.asList("PAULA", "PAUL", "JACK"), collect);
     }
 
     /**
@@ -90,8 +88,8 @@ class CollectorTest {
                 .filter(p -> p.getAge() > 30)
                 .map(Person::getName)
                 .map(String::toUpperCase)
-                .collect(Collectors.toList());
-        assertIterableEquals(List.of("PAULA", "PAUL", "JACK"), collect);
+                .collect(toList());
+        assertIterableEquals(Arrays.asList("PAULA", "PAUL", "JACK"), collect);
     }
 
     @Test
@@ -104,8 +102,9 @@ class CollectorTest {
     @Test
     void test_map_ages() {
         List<Integer> ages = PERSON_SUPPLIER.get().stream()
-                .map(Person::getAge)
-                .collect(toUnmodifiableList());
+                                            .map(Person::getAge)
+                                            .collect(collectingAndThen(toList(),
+                                                Collections::unmodifiableList));
         assertThrows(UnsupportedOperationException.class, () -> ages.add(1));
     }
 
@@ -115,7 +114,7 @@ class CollectorTest {
                 .stream().filter(p -> p.getAge() > 30)
                 .map(Person::getName)
                 .map(String::toUpperCase)
-                .collect(Collectors.joining(","));
+                .collect(joining(","));
 
         assertEquals(joinNames, "PAULA,PAUL,JACK");
     }
@@ -135,7 +134,7 @@ class CollectorTest {
     @Test
     void test_group_by_age_and_name() {
         var collect = PERSON_SUPPLIER.get().stream()
-                .collect(groupingBy(Person::getName, mapping(Person::getAge, toSet())));
+                                     .collect(groupingBy(Person::getName, mapping(Person::getAge, toSet())));
         System.out.println(collect);
     }
 
@@ -161,18 +160,17 @@ class CollectorTest {
     }
 
 
-    @Test
-    void use_filtering_to_find_user_name_length_greater_than_4_group_by_name() {
-        System.out.println(PERSON_SUPPLIER.get()
-                .stream().collect(
-                        groupingBy(Person::getAge,
-                                mapping(Person::getName,
-                                        filtering(name -> name.length() > 4, toList())))));
-    }
+//    @Test
+//    void use_filtering_to_find_user_name_length_greater_than_4_group_by_name() {
+//        System.out.println(PERSON_SUPPLIER.get()
+//                .stream().collect(
+//                        groupingBy(Person::getAge,
+//                                mapping(Person::getName, Collectors.filtering(name -> name.length() > 4, toList())))));
+//    }
 
     @Test
     void flat_mapping() {
-        var numbers = List.of(1, 2, 3);
+        var numbers = Arrays.asList(1, 2, 3);
         List<Integer> collect = numbers
                 .stream()
                 .flatMap(i -> Stream.of(i - 1, i + 1))
@@ -180,15 +178,15 @@ class CollectorTest {
         System.out.println(collect);
     }
 
-    @Test
-    void test_flatMapping() {
-        var collect = PERSON_SUPPLIER.get().stream()
-                .collect(
-                        groupingBy(Person::getAge,
-                                mapping(p -> p.getName().toUpperCase(),
-                                        flatMapping(name -> Stream.of(name.split("")), toSet())
-                                ))
-                );
-        System.out.println(collect);
-    }
+//    @Test
+//    void test_flatMapping() {
+//        var collect = PERSON_SUPPLIER.get().stream()
+//                .collect(
+//                        groupingBy(Person::getAge,
+//                                mapping(p -> p.getName().toUpperCase(),
+//                                        flatMapping(name -> Stream.of(name.split("")), toSet())
+//                                ))
+//                );
+//        System.out.println(collect);
+//    }
 }
