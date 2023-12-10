@@ -4,7 +4,6 @@ import lombok.var;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static idv.lance.collector.Data.PERSON_SUPPLIER;

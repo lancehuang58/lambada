@@ -1,6 +1,5 @@
 package idv.lance.collector;
 
-import idv.lance.Data;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
