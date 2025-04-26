@@ -1,8 +1,5 @@
 package idv.lance.streams;
 
-import lombok.var;
-
-import java.util.List;
 
 import static java.util.Arrays.asList;
 

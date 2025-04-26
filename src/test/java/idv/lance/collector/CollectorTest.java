@@ -1,6 +1,6 @@
 package idv.lance.collector;
 
-import lombok.var;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

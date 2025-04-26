@@ -1,6 +1,6 @@
 package idv.lance.streams;
 
-import lombok.var;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
