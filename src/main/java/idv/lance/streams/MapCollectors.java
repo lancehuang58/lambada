@@ -3,7 +3,6 @@ package idv.lance.streams;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import lombok.var;
 
 import java.util.Iterator;
 import java.util.Random;

@@ -3,6 +3,7 @@ package idv.lance.onjava;
 import java.util.function.Function;
 
 public class CurryingAndPartials {
+
   static String uncurried(String a, String b) {
 	return a + b;
   }
